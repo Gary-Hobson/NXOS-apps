@@ -33,11 +33,7 @@ $(LIBUV_TARBALL):
 	@echo "Downloading: $(LIBUV_TARBALL)"
 	$(Q) curl -L $(LIBUV_URL) -o $(LIBUV_TARBALL)
 
-$(LIBUV_UNPACK): $(LIBUV_TARBALL)
-	@echo "Unpacking: $(LIBUV_TARBALL) -> $(LIBUV_UNPACK)"
-	$(call DELDIR, $(LIBUV_UNPACK))
-	$(Q) unzip $(LIBUV_TARBALL)
-	$(Q) mv libuv-$(LIBUV_VERSION) $(LIBUV_UNPACK)
+$(LIBUV_UNPACK):
 	$(Q) cat $(LIBUV_PATCHS) | patch -s -N -d $(LIBUV_UNPACK) -p1
 
 $(LIBUV_UNPACK)/.patch: $(LIBUV_UNPACK)
@@ -324,13 +320,6 @@ CSRCS += echo-server.c
 
 endif
 
-# Download and unpack tarball if no git repo found
-ifeq ($(wildcard $(LIBUV_UNPACK)/.git),)
 context:: $(LIBUV_UNPACK)/.patch
-
-distclean::
-	$(call DELDIR, $(LIBUV_UNPACK))
-	$(call DELFILE, $(LIBUV_TARBALL))
-endif
 
 include $(APPDIR)/Application.mk
