@@ -20,6 +20,7 @@
 
 TOPDIR ?= $(APPDIR)/import
 include $(TOPDIR)/Make.defs
+ROOTDIR = $(abspath $(APPDIR)/../)
 
 # Application Directories
 
@@ -31,6 +32,7 @@ BUILDIRS   := $(dir $(wildcard $(APPDIR)/*/Make.defs))
 BUILDIRS   := $(filter-out $(APPDIR)/import/,$(BUILDIRS))
 CONFIGDIRS := $(filter-out $(APPDIR)/builtin/,$(BUILDIRS))
 CONFIGDIRS := $(filter-out $(dir $(wildcard $(APPDIR)/*/Kconfig)),$(CONFIGDIRS))
+CONFIGDIRS += $(filter-out $(APPDIR)/ $(TOPDIR)/, $(dir $(wildcard $(ROOTDIR)/*/Make.defs)))
 CLEANDIRS  := $(dir $(wildcard $(APPDIR)/*/Makefile))
 ifeq ($(CONFIG_WINDOWS_NATIVE),y)
   BUILDIRS   := $(subst /,\,$(BUILDIRS))
