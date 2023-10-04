@@ -7,4 +7,5 @@
 
 menu "Projects"
 source "$BINDIR/../projects/Kconfig"
+source "$BINDIR/../libraries/Kconfig"
 endmenu # Projects
